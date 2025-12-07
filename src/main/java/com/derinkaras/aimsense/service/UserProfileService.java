@@ -73,7 +73,7 @@ public class UserProfileService {
         if (req.getLastName() != null) {
             userProfile.setLastName(req.getLastName());
         }
-        if (req.getUserName() != null) {
+        if (req.getUserName() != null && !req.getUserName().equals(userProfile.getUserName())) {
             if (userProfileRepository.existsByUserName(req.getUserName())) {
                 throw new DuplicateResourceException("Username already exists");
             }
