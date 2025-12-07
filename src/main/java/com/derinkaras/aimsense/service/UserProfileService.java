@@ -8,13 +8,14 @@ import com.derinkaras.aimsense.exception.ResourceNotFoundException;
 import com.derinkaras.aimsense.mapper.UserProfileMapper;
 import com.derinkaras.aimsense.model.UserProfile;
 import com.derinkaras.aimsense.repository.UserProfileRepository;
-import com.derinkaras.aimsense.security.CustomUserPrincipal;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.stereotype.Service;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.oauth2.jwt.Jwt;
+import org.springframework.stereotype.Service;
 
 @Service
 public class UserProfileService {
+
     private final UserProfileRepository userProfileRepository;
 
     public UserProfileService(UserProfileRepository userProfileRepository) {
@@ -23,6 +24,7 @@ public class UserProfileService {
 
     public UserProfileDto create(CreateProfileRequest userProfile) {
         UserProfile userProfileEntity = new UserProfile();
+
         if (userProfile.getFirstName() != null) {
             userProfileEntity.setFirstName(userProfile.getFirstName());
         }
@@ -35,35 +37,36 @@ public class UserProfileService {
             }
             userProfileEntity.setUserName(userProfile.getUserName());
         }
-        // 1. Get user id from principle
+
+        // Get Supabase user id from JWT (sub claim)
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        CustomUserPrincipal principal = (CustomUserPrincipal) authentication.getPrincipal();
-        // 2. Set the supabase uuid to the principle.getUserId
-        userProfileEntity.setSupabaseUserId(principal.getUserId());
+        Jwt jwt = (Jwt) authentication.getPrincipal();
+        String supabaseUserId = jwt.getSubject(); // same as jwt.getClaimAsString("sub")
+
+        userProfileEntity.setSupabaseUserId(supabaseUserId);
+
         return UserProfileMapper.userProfileToDto(userProfileRepository.save(userProfileEntity));
     }
 
     public UserProfileDto getUserProfile() {
-        // 1. Get authentication
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        CustomUserPrincipal principal = (CustomUserPrincipal) authentication.getPrincipal();
+        Jwt jwt = (Jwt) authentication.getPrincipal();
+        String supabaseUserId = jwt.getSubject();
 
-        // 2. Extract Supabase user UUID
-        String supabaseUserId = principal.getUserId();
         UserProfile userProfile = userProfileRepository.findBySupabaseUserId(supabaseUserId)
-                .orElseThrow(()-> new ResourceNotFoundException("User Profile", supabaseUserId));
+                .orElseThrow(() -> new ResourceNotFoundException("User Profile", supabaseUserId));
+
         return UserProfileMapper.userProfileToDto(userProfile);
     }
 
     public UserProfileDto updateUserProfile(UpdateProfileRequest req) {
-        // 1. Get authentication
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        CustomUserPrincipal principal = (CustomUserPrincipal) authentication.getPrincipal();
+        Jwt jwt = (Jwt) authentication.getPrincipal();
+        String supabaseUserId = jwt.getSubject();
 
-        // 2. Extract Supabase user UUID
-        String supabaseUserId = principal.getUserId();
         UserProfile userProfile = userProfileRepository.findBySupabaseUserId(supabaseUserId)
-                .orElseThrow(()-> new ResourceNotFoundException("User Profile", supabaseUserId));
+                .orElseThrow(() -> new ResourceNotFoundException("User Profile", supabaseUserId));
+
         if (req.getFirstName() != null) {
             userProfile.setFirstName(req.getFirstName());
         }
@@ -76,23 +79,18 @@ public class UserProfileService {
             }
             userProfile.setUserName(req.getUserName());
         }
+
         return UserProfileMapper.userProfileToDto(userProfileRepository.save(userProfile));
     }
 
     public void deleteUserProfile() {
-        // 1. Get authentication
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        CustomUserPrincipal principal = (CustomUserPrincipal) authentication.getPrincipal();
+        Jwt jwt = (Jwt) authentication.getPrincipal();
+        String supabaseUserId = jwt.getSubject();
 
-        // 2. Extract Supabase user UUID
-        String supabaseUserId = principal.getUserId();
         UserProfile userProfile = userProfileRepository.findBySupabaseUserId(supabaseUserId)
-                .orElseThrow(()-> new ResourceNotFoundException("User Profile", supabaseUserId));
+                .orElseThrow(() -> new ResourceNotFoundException("User Profile", supabaseUserId));
 
         userProfileRepository.delete(userProfile);
     }
-
-
-
-
 }
