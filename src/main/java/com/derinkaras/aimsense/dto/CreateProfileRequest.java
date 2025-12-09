@@ -8,5 +8,5 @@ import lombok.Setter;
 public class CreateProfileRequest {
     private String firstName;
     private String lastName;
-    private String userName;
+    private String profilePhotoUri;
 }

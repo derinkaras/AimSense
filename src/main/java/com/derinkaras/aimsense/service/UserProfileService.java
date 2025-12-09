@@ -31,11 +31,8 @@ public class UserProfileService {
         if (userProfile.getLastName() != null) {
             userProfileEntity.setLastName(userProfile.getLastName());
         }
-        if (userProfile.getUserName() != null) {
-            if (userProfileRepository.existsByUserName(userProfile.getUserName())) {
-                throw new DuplicateResourceException("Username already exists");
-            }
-            userProfileEntity.setUserName(userProfile.getUserName());
+        if (userProfile.getProfilePhotoUri() != null) {
+            userProfileEntity.setProfilePhotoUri(userProfile.getProfilePhotoUri());
         }
 
         // Get Supabase user id from JWT (sub claim)
@@ -73,13 +70,9 @@ public class UserProfileService {
         if (req.getLastName() != null) {
             userProfile.setLastName(req.getLastName());
         }
-        if (req.getUserName() != null && !req.getUserName().equals(userProfile.getUserName())) {
-            if (userProfileRepository.existsByUserName(req.getUserName())) {
-                throw new DuplicateResourceException("Username already exists");
-            }
-            userProfile.setUserName(req.getUserName());
+        if (req.getProfilePhotoUri() != null) {
+            userProfile.setProfilePhotoUri(req.getProfilePhotoUri());
         }
-
         return UserProfileMapper.userProfileToDto(userProfileRepository.save(userProfile));
     }
 

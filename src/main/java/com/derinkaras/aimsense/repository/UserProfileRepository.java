@@ -9,7 +9,4 @@ public interface UserProfileRepository extends JpaRepository<UserProfile, String
 
     Optional<UserProfile> findBySupabaseUserId(String supabaseUserId);
 
-    boolean getByUserName(String userName);
-
-    boolean existsByUserName(String userName);
 }

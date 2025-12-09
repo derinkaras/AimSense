@@ -10,5 +10,5 @@ import org.springframework.web.bind.annotation.RestController;
 public class UpdateProfileRequest {
     private String firstName;
     private String lastName;
-    private String userName;
+    private String profilePhotoUri;
 }

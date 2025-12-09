@@ -13,11 +13,11 @@ public class UserProfile {
     @GeneratedValue(strategy = GenerationType.UUID) // Since my supabase user id is a UUID this should match style
     private String id;
 
-    @Column(unique = true)
-    private String userName;
-
     private String firstName;
     private String lastName;
+
+    @Column(name="profile_photo_uri")
+    private String profilePhotoUri;
 
     @Column(name = "supabase_user_id", nullable = false, unique = true)
     private String supabaseUserId;

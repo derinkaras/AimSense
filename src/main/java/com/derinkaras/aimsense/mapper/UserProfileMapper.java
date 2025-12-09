@@ -13,9 +13,10 @@ public class UserProfileMapper {
         if (userProfile.getLastName() != null) {
             userProfileDto.setLastName(userProfile.getLastName());
         }
-        if (userProfile.getUserName() != null) {
-            userProfileDto.setUserName(userProfile.getUserName());
+        if (userProfile.getProfilePhotoUri() != null) {
+            userProfileDto.setProfilePhotoUri(userProfile.getProfilePhotoUri());
         }
+
         return userProfileDto;
 
     }
