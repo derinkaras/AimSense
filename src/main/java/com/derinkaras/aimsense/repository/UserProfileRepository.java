@@ -9,4 +9,5 @@ public interface UserProfileRepository extends JpaRepository<UserProfile, String
 
     Optional<UserProfile> findBySupabaseUserId(String supabaseUserId);
 
+    void deleteBySupabaseUserId(String supabaseUserId);
 }

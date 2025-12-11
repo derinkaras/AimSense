@@ -1,13 +1,11 @@
-package com.derinkaras.aimsense.dto;
+package com.derinkaras.aimsense.dto.userProfile;
 
 import lombok.Getter;
 import lombok.Setter;
-import org.springframework.web.bind.annotation.RestController;
 
 @Getter
 @Setter
-
-public class UpdateProfileRequest {
+public class CreateProfileRequest {
     private String firstName;
     private String lastName;
     private String profilePhotoUri;

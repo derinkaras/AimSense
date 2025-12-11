@@ -1,4 +1,4 @@
-package com.derinkaras.aimsense.dto;
+package com.derinkaras.aimsense.dto.userProfile;
 import lombok.Getter;
 import lombok.Setter;
 

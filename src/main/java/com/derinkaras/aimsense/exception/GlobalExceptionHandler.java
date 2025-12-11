@@ -2,6 +2,7 @@ package com.derinkaras.aimsense.exception;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
@@ -36,6 +37,14 @@ public class GlobalExceptionHandler {
         ex.printStackTrace(); // or use a logger
 
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(body);
+    }
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public ResponseEntity<Map<String, Object>> handleValidation(MethodArgumentNotValidException ex) {
+        Map<String, Object> body = new HashMap<>();
+        body.put("error", "VALIDATION_ERROR");
+        body.put("message", ex.getBindingResult().getFieldError().getDefaultMessage());
+        // Error code 400
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(body);
     }
 
 

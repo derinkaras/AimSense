@@ -1,9 +1,8 @@
 package com.derinkaras.aimsense.service;
 
-import com.derinkaras.aimsense.dto.CreateProfileRequest;
-import com.derinkaras.aimsense.dto.UpdateProfileRequest;
-import com.derinkaras.aimsense.dto.UserProfileDto;
-import com.derinkaras.aimsense.exception.DuplicateResourceException;
+import com.derinkaras.aimsense.dto.userProfile.CreateProfileRequest;
+import com.derinkaras.aimsense.dto.userProfile.UpdateProfileRequest;
+import com.derinkaras.aimsense.dto.userProfile.UserProfileDto;
 import com.derinkaras.aimsense.exception.ResourceNotFoundException;
 import com.derinkaras.aimsense.mapper.UserProfileMapper;
 import com.derinkaras.aimsense.model.UserProfile;
@@ -86,4 +85,5 @@ public class UserProfileService {
 
         userProfileRepository.delete(userProfile);
     }
+
 }

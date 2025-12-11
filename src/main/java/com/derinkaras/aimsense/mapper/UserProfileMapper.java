@@ -1,6 +1,6 @@
 package com.derinkaras.aimsense.mapper;
 
-import com.derinkaras.aimsense.dto.UserProfileDto;
+import com.derinkaras.aimsense.dto.userProfile.UserProfileDto;
 import com.derinkaras.aimsense.model.UserProfile;
 
 public class UserProfileMapper {
