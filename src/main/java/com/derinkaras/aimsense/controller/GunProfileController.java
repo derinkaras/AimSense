@@ -2,6 +2,7 @@ package com.derinkaras.aimsense.controller;
 
 import com.derinkaras.aimsense.dto.gunProfile.CreateGunProfileRequest;
 import com.derinkaras.aimsense.dto.gunProfile.GunProfileDto;
+import com.derinkaras.aimsense.dto.gunProfile.UpdateGunProfileRequest;
 import com.derinkaras.aimsense.service.GunProfileService;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
@@ -33,10 +34,27 @@ public class GunProfileController {
     }
 
     @GetMapping("/me/{id}")
-    public ResponseEntity<GunProfileDto> getSpecificGunProfile(@PathVariable String id){  // ✅ Single DTO
+    public ResponseEntity<GunProfileDto> getSpecificGunProfile(@PathVariable String id){
         GunProfileDto specificGunProfile = gunProfileService.getSpecificGunProfile(id);
         return ResponseEntity.ok().body(specificGunProfile);
     }
 
+    @PatchMapping("/me/{id}")
+    public ResponseEntity<GunProfileDto> editSpecificGunProfile(@PathVariable String id,
+                                                                @RequestBody UpdateGunProfileRequest req){
+        return ResponseEntity.ok(gunProfileService.editSpecificGunProfile(id, req));
+    }
+
+    @DeleteMapping("/me/{id}")
+    public ResponseEntity<Void> deleteSpecificGunProfile(@PathVariable String id){
+        gunProfileService.deleteSpecificGunProfile(id);
+        return ResponseEntity.ok().build();
+    }
+
+    @DeleteMapping("/me/")
+    public ResponseEntity<Void> deleteAllGunProfiles(){
+        gunProfileService.deleteAllGunProfiles();
+        return ResponseEntity.ok().build();
+    }
 
 }

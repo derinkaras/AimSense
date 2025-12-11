@@ -3,6 +3,7 @@ package com.derinkaras.aimsense.controller;
 import com.derinkaras.aimsense.dto.userProfile.CreateProfileRequest;
 import com.derinkaras.aimsense.dto.userProfile.UpdateProfileRequest;
 import com.derinkaras.aimsense.dto.userProfile.UserProfileDto;
+import com.derinkaras.aimsense.service.GunProfileService;
 import com.derinkaras.aimsense.service.SupabaseService;
 import com.derinkaras.aimsense.service.UserProfileService;
 import org.springframework.http.HttpStatus;
@@ -16,9 +17,14 @@ import java.util.Map;
 public class UserProfileController {
     private final UserProfileService userProfileService;
     private final SupabaseService supabaseService;
-    UserProfileController(UserProfileService userProfileService, SupabaseService supabaseService) {
+    private final GunProfileService gunprofileService;
+    private final GunProfileService gunProfileService;
+
+    UserProfileController(UserProfileService userProfileService, SupabaseService supabaseService, GunProfileService gunProfileService) {
         this.userProfileService = userProfileService;
         this.supabaseService = supabaseService;
+        this.gunProfileService = gunProfileService;
+        this.gunprofileService = gunProfileService;
     }
 
     @PostMapping("/create")
@@ -50,7 +56,8 @@ public class UserProfileController {
         try {
             // 1. Delete user profile from your database
             userProfileService.deleteUserProfile();
-            // 2. TODO: Delete rifle profiles when you build that feature
+            // 2. Delete rifle profiles
+            gunprofileService.deleteAllGunProfiles();
             // 3. Delete from Supabase auth
             supabaseService.deleteUser();
 

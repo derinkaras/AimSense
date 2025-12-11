@@ -7,6 +7,10 @@ import java.util.List;
 import java.util.Optional;
 
 public interface GunProfileRepository extends JpaRepository<GunProfile, String> {
+
     Optional<GunProfile> findByIdAndSupabaseUserId(String id, String supabaseUserId);
+
     Optional<List<GunProfile>> findAllBySupabaseUserId(String supabaseUserId);
+
+    void deleteAllBySupabaseUserId(String supabaseUserId);
 }
