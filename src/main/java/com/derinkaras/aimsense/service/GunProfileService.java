@@ -27,12 +27,13 @@ public class GunProfileService {
         GunProfile gunProfile = new GunProfile();
         gunProfile.setName(req.getName());
         gunProfile.setCaliber(req.getCaliber());
+        gunProfile.setBulletWeightGrains(req.getBulletWeightGrains()); // ← ADD THIS LINE
         gunProfile.setBallisticCoefficient(req.getBallisticCoefficient());
         gunProfile.setMuzzleVelocityFps(req.getMuzzleVelocityFps());
         gunProfile.setZeroDistance(req.getZeroDistance());
         gunProfile.setScopeHeight(req.getScopeHeight());
         gunProfile.setUnitSystem(req.getUnitSystem());
-        // Redundant
+
         if (req.getGunPhotoUri() != null) {
             gunProfile.setGunPhotoUri(req.getGunPhotoUri());
         }
@@ -40,7 +41,7 @@ public class GunProfileService {
         // Get Supabase user id from JWT
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         Jwt jwt = (Jwt) authentication.getPrincipal();
-        String supabaseUserId = jwt.getSubject(); // same as jwt.getClaimAsString("sub")
+        String supabaseUserId = jwt.getSubject();
         gunProfile.setSupabaseUserId(supabaseUserId);
 
         return GunProfileMapper.gunProfileToDto(repo.save(gunProfile));

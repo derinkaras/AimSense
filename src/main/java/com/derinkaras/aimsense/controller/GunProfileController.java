@@ -51,7 +51,7 @@ public class GunProfileController {
         return ResponseEntity.ok().build();
     }
 
-    @DeleteMapping("/me/")
+    @DeleteMapping("/me")
     public ResponseEntity<Void> deleteAllGunProfiles(){
         gunProfileService.deleteAllGunProfiles();
         return ResponseEntity.ok().build();
