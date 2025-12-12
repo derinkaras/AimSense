@@ -11,6 +11,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class UserProfileService {
@@ -75,6 +76,7 @@ public class UserProfileService {
         return UserProfileMapper.userProfileToDto(userProfileRepository.save(userProfile));
     }
 
+    @Transactional
     public void deleteUserProfile() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         Jwt jwt = (Jwt) authentication.getPrincipal();

@@ -8,6 +8,7 @@ import com.derinkaras.aimsense.service.SupabaseService;
 import com.derinkaras.aimsense.service.UserProfileService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
@@ -51,6 +52,7 @@ public class UserProfileController {
         return ResponseEntity.noContent().build();
     }
 
+    @Transactional
     @DeleteMapping("/deleteAccount")
     public ResponseEntity<?> deleteAccount() {
         try {

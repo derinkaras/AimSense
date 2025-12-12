@@ -11,6 +11,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -112,6 +113,7 @@ public class GunProfileService {
         GunProfile saved = repo.save(gunProfile);
         return GunProfileMapper.gunProfileToDto(saved);
     }
+    @Transactional
     public void deleteSpecificGunProfile(String id) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         Jwt jwt = (Jwt) authentication.getPrincipal();
@@ -123,6 +125,7 @@ public class GunProfileService {
         repo.delete(specificGunProfile);
     }
 
+    @Transactional
     public void deleteAllGunProfiles() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         Jwt jwt = (Jwt) authentication.getPrincipal();
